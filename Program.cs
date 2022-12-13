@@ -1,29 +1,20 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using algorithms_cs.Algorithm.Sort.External.Merge;
 using algorithms_cs.Tape;
 using algorithms_cs.Serial;
 
-Console.WriteLine("Hello, World!");
+Console.WriteLine(string.Format("fff {0}", "123"));
 
-//var t1 = new TapeReader((string)"E:\\projects\\algorithms-cs\\resource\\1.test");
-var b1 = new BufferedTapeReader((string)"E:\\projects\\algorithms-cs\\resource\\1.test");
+var mws = new MultiwaySort(3, "Hello");
 
 
+
+
+/*
+var b1 = new BufferedTapeReader((string)@"D:\\condig\\algorithm-cs\\resource\\1.test");
 var s1 = new Series(b1);
-
-/*var value = s1.Next() ?? throw new ArgumentNullException("s1.Next()");
-while (value.GetType() == SeriesReturnType.Correct)
-{
-    Console.Write(value.GetType());
-    Console.WriteLine(value.GetValue());
-    value = s1.Next();
-    
-}*/
-
 SeriesReturn<double> value;
-
-
-
 do
 {
     do
@@ -34,3 +25,4 @@ do
     } while (value.GetType() == SeriesReturnType.Correct);
     s1 = new Series(b1);
 } while (value?.GetType() != SeriesReturnType.TapeEnded);
+*/
