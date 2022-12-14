@@ -47,11 +47,21 @@ public class Collector
         return minReturn;
     }
 
+    public bool IsEmpty()
+    {
+        return _bufferSeriesReturns.All(x => x.GetType() != SeriesReturnType.Correct);
+    }
+
+    public bool TapeEnded()
+    {
+        return _bufferSeriesReturns.All(x => x.GetType() == SeriesReturnType.TapeEnded);
+    }
+
     public SeriesReturn<double> Next()
     {
         // Returns minimal Correct value from multiple Series, else returns SeriesEnd
 
-        var seriesEnded = _bufferSeriesReturns.All(x => x.GetType() != SeriesReturnType.Correct);
+        var seriesEnded = IsEmpty();
         if (seriesEnded) return new SeriesReturn<double>(SeriesReturnType.SeriesEnded);
 
         var minElement = Min();

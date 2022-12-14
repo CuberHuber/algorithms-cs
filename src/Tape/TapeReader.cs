@@ -27,6 +27,11 @@ public class TapeReader : Tape
     // This methods returns a boolean value describing is the file ended 
     public bool IsEnd => _file!.Peek() == -1;
 
+    public void Close()
+    {
+        _file?.Close();
+    }
+
     // This methods reading file and returns a next number from this file
     public virtual TapeReturn<double> Next()
     {

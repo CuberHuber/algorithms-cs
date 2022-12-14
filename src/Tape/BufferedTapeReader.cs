@@ -2,7 +2,7 @@
 
 public class BufferedTapeReader: TapeReader
 {
-    private Queue<double> _buffer;
+    private readonly Queue<double> _buffer;
 
     public BufferedTapeReader(string filepath) : base(filepath)
     {

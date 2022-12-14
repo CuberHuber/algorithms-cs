@@ -42,6 +42,7 @@ public class MultiwaySort: Sort
     public void Start()
     {
         InitTapeSplit();
+        MainRound();
     }
 
     private void InitTapeSplit()
@@ -80,15 +81,57 @@ public class MultiwaySort: Sort
         {
             tape.Close();
         }
+        _dominoes.Rotation();
     }
 
     private void MainRound()
     {
+        
         // создаются N серий из RotatingDominoes.ReadFilenames
         // Подаются в Collector 
         // Чтение из коллектора серии в один файл
         
         // следующая серия коллектора в другой файл и по i (mod N)
+        
+        
+        // Создание Списка полос для чтения
+        var readTapes = new List<BufferedTapeReader>();
+        if (readTapes == null) throw new ArgumentNullException(nameof(readTapes));
+        readTapes.AddRange(_dominoes.ReadFilenames.Select(filename => new BufferedTapeReader(filename)));
+        
+        // Создание Списка полос для записи
+        var writeTapes = new List<TapeWriter<double>>();
+        if (writeTapes == null) throw new ArgumentNullException(nameof(readTapes));
+        writeTapes.AddRange(_dominoes.WriteFilenames.Select(filename => new TapeWriter<double>(filename)));
+
+        
+        var indexTape = 0;
+        if (indexTape >= _n) throw new IndexOutOfRangeException("indexTape out of range tapeWrites");
+        var multipleSeries = new List<Series>();
+        multipleSeries.AddRange(readTapes.Select(tape => new Series(tape)));
+        var collector = new Collector(multipleSeries);
+        SeriesReturn<double> value;
+        do
+        {
+            do
+            {
+                value = collector.Next();
+                if (value.GetType() == SeriesReturnType.Correct)
+                {
+                    writeTapes[indexTape].Write(value.GetValue());
+                }
+            } while (value.GetType() == SeriesReturnType.Correct);
+            indexTape += 1;
+            if (indexTape >= _n) indexTape = 0;
+            multipleSeries = new List<Series>();
+            multipleSeries.AddRange(readTapes.Select(tape => new Series(tape)));
+            collector = new Collector(multipleSeries);
+        } while (!collector.TapeEnded());
+        
+        
+        
+        foreach (var tape in readTapes) tape.Close();
+        foreach (var tape in writeTapes)  tape.Close();
     }
 
 }
