@@ -1,39 +1,94 @@
-﻿using algorithms_cs.Tape;
+﻿using algorithms_cs.Serial;
+using algorithms_cs.Tape;
 
 namespace algorithms_cs.Algorithm.Sort.External.Merge;
+
 
 public class MultiwaySort: Sort
 {
     private readonly string _sourceFilePath;
-    private readonly int _nWays;
-    private List<string> _files;
-    private readonly string _TemplateNameFiles = "tempfile-{0}.multiwaymergesort";
+    private readonly int _n;
+    private RotatingDominoes _dominoes;
+    private List<Tape.Tape> _tapes;
+    private readonly string _templateNameFiles;
+    
 
-
-    public MultiwaySort(int NWays, string sourceFilePath)
+    public MultiwaySort(int N, string sourceFilePath)
     {
-        _files = new List<string>();
+        if (N <= 1) throw new InvalidDataException("");
+        
         _sourceFilePath = sourceFilePath;
-        _nWays = NWays;
-        Init();
-    }
-
-    private void Init()
-    {
-        for (int i = 0; i < _nWays * 2; i++)
+        var directoryName = Path.GetDirectoryName(_sourceFilePath);
+        if (directoryName == null) throw new DirectoryNotFoundException();
+        _templateNameFiles = directoryName + "\\temp\\" + "tempfile-{0}.multiwaymergesort";
+        Directory.CreateDirectory(directoryName + "\\temp\\");
+        
+        _tapes = new List<Tape.Tape>();
+        _n = N;
+        
+        var firstFilenames = new List<string>();
+        var secondFilenames = new List<string>();
+        for (int i = 0; i < _n; i++)
         {
-            _files.Add(string.Format(_TemplateNameFiles, i.ToString()));
+            firstFilenames.Add(string.Format(_templateNameFiles, i.ToString()));
         }
+        for (int i = _n; i < _n*2; i++)
+        {
+            secondFilenames.Add(string.Format(_templateNameFiles, i.ToString()));
+        }
+        _dominoes = new RotatingDominoes(firstFilenames, secondFilenames);
     }
 
     public void Start()
     {
-        
+        InitTapeSplit();
     }
 
-    private void TapeSplit()
-    {
+    private void InitTapeSplit()
+    { 
+        var initTape = new BufferedTapeReader(_sourceFilePath);
+
+        var tapeWrites = new List<TapeWriter<double>>();
+        foreach (var filename in _dominoes.WriteFilenames)
+        {
+            tapeWrites.Add(new TapeWriter<double>(filename));
+        }
         
+        var indexTape = 0;
+        if (indexTape >= _n) throw new IndexOutOfRangeException("indexTape out of range tapeWrites");
+        
+        var s1 = new Series(initTape);
+        SeriesReturn<double> value;
+
+        do
+        {
+            do
+            {
+                value = s1.Next();
+                if (value.GetType() == SeriesReturnType.Correct)
+                {
+                    tapeWrites[indexTape].Write(value.GetValue());
+                }
+            } while (value.GetType() == SeriesReturnType.Correct);
+
+            indexTape += 1;
+            if (indexTape >= _n) indexTape = 0;
+            s1 = new Series(initTape);
+        } while (value?.GetType() != SeriesReturnType.TapeEnded);
+        
+        foreach (var tape in tapeWrites)
+        {
+            tape.Close();
+        }
+    }
+
+    private void MainRound()
+    {
+        // создаются N серий из RotatingDominoes.ReadFilenames
+        // Подаются в Collector 
+        // Чтение из коллектора серии в один файл
+        
+        // следующая серия коллектора в другой файл и по i (mod N)
     }
 
 }

@@ -119,7 +119,6 @@ public class TapeReader : Tape
                 }
             }
         }
-
         return new TapeReturn<double>(TapeReturnType.TapeEnded);
     }
 }

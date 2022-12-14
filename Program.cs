@@ -9,6 +9,7 @@ var b1 = new BufferedTapeReader((string)"E:\\projects\\algorithms-cs\\resource\\
 var b2 = new BufferedTapeReader((string)"E:\\projects\\algorithms-cs\\resource\\2.test");
 var b3 = new BufferedTapeReader((string)"E:\\projects\\algorithms-cs\\resource\\3.test");
 
+/*
 var seriesList = new List<Series>();
 
 seriesList.Add(new Series(b1));
@@ -23,15 +24,14 @@ do
     value = collector.Next();
     Console.Write( value.GetType() == SeriesReturnType.Correct ? value.GetValue() + " " : "");
 } while (value.GetType() == SeriesReturnType.Correct);
+*/
 
 
 
 
 
 
-/*
-var b1 = new BufferedTapeReader((string)@"D:\\condig\\algorithm-cs\\resource\\1.test");
-var s1 = new Series(b1);
+/*var s1 = new Series(b1);
 SeriesReturn<double> value;
 do
 {
@@ -42,5 +42,10 @@ do
         Console.WriteLine(value.GetValue());
     } while (value.GetType() == SeriesReturnType.Correct);
     s1 = new Series(b1);
-} while (value?.GetType() != SeriesReturnType.TapeEnded);
-*/
+} while (value?.GetType() != SeriesReturnType.TapeEnded);*/
+
+
+
+var sort = new MultiwaySort(3, (string)"E:\\projects\\algorithms-cs\\resource\\1.test");
+
+sort.Start();

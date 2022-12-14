@@ -3,8 +3,8 @@
 public class TapeWriter<T> : Tape
 {   
     private readonly StreamWriter _file;
-    
-    protected TapeWriter(string filepath) : base(filepath)
+
+    public TapeWriter(string filepath) : base(filepath)
     {
         try
         {
@@ -15,6 +15,11 @@ public class TapeWriter<T> : Tape
             Console.WriteLine(e);
             throw;
         }
+    }
+
+    public void Close()
+    {
+        _file.Close();
     }
 
     public void Write(T value)

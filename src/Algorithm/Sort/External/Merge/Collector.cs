@@ -5,14 +5,14 @@ namespace algorithms_cs.Algorithm.Sort.External.Merge;
 
 internal struct MinReturn
 {
-    public SeriesReturn<double> element;
-    public int index;
+    public SeriesReturn<double> Element;
+    public int Index;
 }
 
 public class Collector
 {
     private readonly List<Series> _seriesCollection;
-    private List<SeriesReturn<double>> _bufferSeriesReturns;
+    private readonly List<SeriesReturn<double>> _bufferSeriesReturns;
 
     public Collector(List<Series> seriesCollection)
     {
@@ -29,16 +29,18 @@ public class Collector
         // This method find Correct minimal value from multiple Series
         
         var value = double.MaxValue;
-        var minReturn = new MinReturn();
-        minReturn.index = 0;
+        var minReturn = new MinReturn
+        {
+            Index = 0
+        };
 
         for (int i = 0; i < _bufferSeriesReturns.Count; i++)
         {
             if (_bufferSeriesReturns[i].GetType() == SeriesReturnType.Correct && value > _bufferSeriesReturns[i].GetValue())
             {
                 value = _bufferSeriesReturns[i].GetValue();
-                minReturn.element = _bufferSeriesReturns[i];
-                minReturn.index = i;
+                minReturn.Element = _bufferSeriesReturns[i];
+                minReturn.Index = i;
             }
         }
 
@@ -54,7 +56,7 @@ public class Collector
 
         var minElement = Min();
         
-        _bufferSeriesReturns[minElement.index] = _seriesCollection[minElement.index].Next();
-        return minElement.element;
+        _bufferSeriesReturns[minElement.Index] = _seriesCollection[minElement.Index].Next();
+        return minElement.Element;
     }
 }
