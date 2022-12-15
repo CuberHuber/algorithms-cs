@@ -42,7 +42,13 @@ public class MultiwaySort: Sort
     public void Start()
     {
         InitTapeSplit();
-        MainRound();
+        _dominoes.Rotation();
+        int ended;
+        do
+        {
+            ended = MainRound();
+            _dominoes.Rotation();
+        } while (ended > 1);
     }
 
     private void InitTapeSplit()
@@ -81,10 +87,9 @@ public class MultiwaySort: Sort
         {
             tape.Close();
         }
-        _dominoes.Rotation();
     }
 
-    private void MainRound()
+    private int MainRound()
     {
         
         // создаются N серий из RotatingDominoes.ReadFilenames
@@ -92,6 +97,8 @@ public class MultiwaySort: Sort
         // Чтение из коллектора серии в один файл
         
         // следующая серия коллектора в другой файл и по i (mod N)
+        
+        // ПОМОГИТЕ, МЕНЯ ДЕРЖАТ В ЗАЛОЖНИКАХ, НЕТ НЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕТ НЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕТ
         
         
         // Создание Списка полос для чтения
@@ -127,11 +134,12 @@ public class MultiwaySort: Sort
             multipleSeries.AddRange(readTapes.Select(tape => new Series(tape)));
             collector = new Collector(multipleSeries);
         } while (!collector.TapeEnded());
-        
-        
+
         
         foreach (var tape in readTapes) tape.Close();
         foreach (var tape in writeTapes)  tape.Close();
+
+        return indexTape;
     }
 
 }

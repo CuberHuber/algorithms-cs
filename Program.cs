@@ -5,9 +5,9 @@ using algorithms_cs.Tape;
 using algorithms_cs.Serial;
 
 
-var b1 = new BufferedTapeReader((string)"E:\\projects\\algorithms-cs\\resource\\1.test");
-var b2 = new BufferedTapeReader((string)"E:\\projects\\algorithms-cs\\resource\\2.test");
-var b3 = new BufferedTapeReader((string)"E:\\projects\\algorithms-cs\\resource\\3.test");
+//var b1 = new BufferedTapeReader((string)"E:\\projects\\algorithms-cs\\resource\\1.test");
+//var b2 = new BufferedTapeReader((string)"E:\\projects\\algorithms-cs\\resource\\2.test");
+//var b3 = new BufferedTapeReader((string)"E:\\projects\\algorithms-cs\\resource\\3.test");
 
 /*
 var seriesList = new List<Series>();
@@ -46,6 +46,6 @@ do
 
 
 
-var sort = new MultiwaySort(3, (string)"E:\\projects\\algorithms-cs\\resource\\1.test");
+var sort = new MultiwaySort(4, (string)"D:\\coding\\algorithm-cs\\resource\\1.test");
 
 sort.Start();
