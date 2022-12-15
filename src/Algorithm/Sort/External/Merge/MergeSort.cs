@@ -3,7 +3,6 @@ using algorithms_cs.Tape;
 
 namespace algorithms_cs.Algorithm.Sort.External.Merge;
 
-
 public class MultiwaySort: Sort
 {
     private readonly string _sourceFilePath;
@@ -13,14 +12,15 @@ public class MultiwaySort: Sort
     private List<Tape.Tape> _tapes;
     private readonly string _templateNameFiles;
     
-
     public MultiwaySort(int N, string sourceFilePath)
     {
         if (N <= 1) throw new InvalidDataException("");
         
         _sourceFilePath = sourceFilePath;
+        
         var directoryName = Path.GetDirectoryName(_sourceFilePath);
         if (directoryName == null) throw new DirectoryNotFoundException();
+        
         _tempDirectory = directoryName + "\\temp\\";
         _templateNameFiles = _tempDirectory + "tempfile-{0}.multiwaymergesort";
         Directory.CreateDirectory(_tempDirectory);
@@ -30,11 +30,11 @@ public class MultiwaySort: Sort
         
         var firstFilenames = new List<string>();
         var secondFilenames = new List<string>();
-        for (int i = 0; i < _n; i++)
+        for (var i = 0; i < _n; i++)
         {
             firstFilenames.Add(string.Format(_templateNameFiles, i.ToString()));
         }
-        for (int i = _n; i < _n*2; i++)
+        for (var i = _n; i < _n*2; i++)
         {
             secondFilenames.Add(string.Format(_templateNameFiles, i.ToString()));
         }
@@ -73,12 +73,8 @@ public class MultiwaySort: Sort
     { 
         var initTape = new BufferedTapeReader(_sourceFilePath);
 
-        var tapeWrites = new List<TapeWriter<double>>();
-        foreach (var filename in _dominoes.WriteFilenames)
-        {
-            tapeWrites.Add(new TapeWriter<double>(filename));
-        }
-        
+        var tapeWrites = _dominoes.WriteFilenames.Select(filename => new TapeWriter<double>(filename)).ToList();
+
         var indexTape = 0;
         if (indexTape >= _n) throw new IndexOutOfRangeException("indexTape out of range tapeWrites");
         
@@ -128,7 +124,6 @@ public class MultiwaySort: Sort
         var writeTapes = new List<TapeWriter<double>>();
         if (writeTapes == null) throw new ArgumentNullException(nameof(readTapes));
         writeTapes.AddRange(_dominoes.WriteFilenames.Select(filename => new TapeWriter<double>(filename)));
-
         
         var indexTape = 0;
         if (indexTape >= _n) throw new IndexOutOfRangeException("indexTape out of range tapeWrites");

@@ -34,9 +34,10 @@ public class Collector
             Index = 0
         };
 
-        for (int i = 0; i < _bufferSeriesReturns.Count; i++)
+        for (var i = 0; i < _bufferSeriesReturns.Count; i++)
         {
-            if (_bufferSeriesReturns[i].GetType() == SeriesReturnType.Correct && value > _bufferSeriesReturns[i].GetValue())
+            if (_bufferSeriesReturns[i].GetType() == SeriesReturnType.Correct 
+                && value > _bufferSeriesReturns[i].GetValue())
             {
                 value = _bufferSeriesReturns[i].GetValue();
                 minReturn.Element = _bufferSeriesReturns[i];
@@ -47,15 +48,9 @@ public class Collector
         return minReturn;
     }
 
-    public bool IsEmpty()
-    {
-        return _bufferSeriesReturns.All(x => x.GetType() != SeriesReturnType.Correct);
-    }
+    private bool IsEmpty() => _bufferSeriesReturns.All(x => x.GetType() != SeriesReturnType.Correct);
 
-    public bool TapeEnded()
-    {
-        return _bufferSeriesReturns.All(x => x.GetType() == SeriesReturnType.TapeEnded);
-    }
+    public bool TapeEnded() => _bufferSeriesReturns.All(x => x.GetType() == SeriesReturnType.TapeEnded);
 
     public SeriesReturn<double> Next()
     {

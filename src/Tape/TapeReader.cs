@@ -39,7 +39,7 @@ public class TapeReader : Tape
     public virtual TapeReturn<double> Next()
     {
         var token = "";
-        bool tokenIsNumber = false;
+        var tokenIsNumber = false;
         //_isHaveNumber = IsEnd();
 
         while (!IsEnd)
@@ -54,7 +54,9 @@ public class TapeReader : Tape
             if (!tokenIsNumber) continue;
             
             // Checking negative or float number or continues digit
-            tokenIsNumber = ValueIsDigit(currentChar is '.' or ',' or '-' ? nextChar : currentChar);
+            tokenIsNumber = ValueIsDigit(currentChar is '.' or ',' or '-'
+                ? nextChar
+                : currentChar);
 
             if (!tokenIsNumber)
             {
