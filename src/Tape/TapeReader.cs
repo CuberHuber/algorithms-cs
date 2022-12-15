@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace algorithms_cs.Tape;
+﻿namespace algorithms_cs.Tape;
 
 public class TapeReader : Tape
 {
@@ -32,96 +30,53 @@ public class TapeReader : Tape
         _file?.Close();
     }
 
+    private bool ValueIsDigit(int value)
+    {
+        return value is >= 48 and <= 57;
+    }
+
     // This methods reading file and returns a next number from this file
     public virtual TapeReturn<double> Next()
     {
         var token = "";
-        bool isNumber = false, isUnSignNumber = false;
+        bool tokenIsNumber = false;
         //_isHaveNumber = IsEnd();
 
         while (!IsEnd)
         {
-            var symbol = _file!.Read();
-            var nextSymbol = _file.Peek();
-            // Если число не началось
-            if (!isNumber && !isUnSignNumber)
+            var currentChar = _file!.Read();
+            var nextChar = _file.Peek();
+
+            tokenIsNumber = !tokenIsNumber
+                ? (currentChar == '-' && ValueIsDigit(nextChar)) || ValueIsDigit(currentChar)
+                : tokenIsNumber;
+
+            if (!tokenIsNumber) continue;
+            
+            // Checking negative or float number or continues digit
+            tokenIsNumber = ValueIsDigit(currentChar is '.' or ',' or '-' ? nextChar : currentChar);
+
+            if (!tokenIsNumber)
             {
-                // Если число началось с знака: '-'
-                if (symbol == '-' && nextSymbol is >= 48 and <= 57)
+                if (token.Length > 0)
                 {
-                    isUnSignNumber = true;
-                }
-                else if (48 <= symbol && symbol <= 57)
-                {
-                    isNumber = true;
-                }
-            }
-
-            // Если число уже начато
-            if (isNumber || isUnSignNumber)
-            {
-                // Если символ точка или запятая и следующий символ число, то продолжить чтение
-                if (symbol is '.' or ',' && nextSymbol is >= 48 and <= 57)
-                {
-                    isNumber = true;
-                    isUnSignNumber = true;
-                }
-                // Если после точки или запятой нет числа, то выходим из цикла
-                else if (symbol is '.' or ',' && nextSymbol is < 48 or > 57)
-                {
-                    isNumber = false;
-                    isUnSignNumber = false;
-                }
-                else if (symbol == '-' && nextSymbol is >= 48 and <= 57)
-                {
-                    isNumber = true;
-                    isUnSignNumber = true;
-                }
-                else if (symbol is >= 48 and <= 57)
-                {
-                    isNumber = true;
-                    isUnSignNumber = true;
-                }
-                else
-                {
-                    isNumber = false;
-                    isUnSignNumber = false;
-                }
-
-                if (!isNumber && !isUnSignNumber)
-                {
-                    //_isHaveNumber = token.Length > 0;
-                    if (token.Length > 0)
-                    {
-                        return new TapeReturn<double>(Convert.ToDouble(token.Replace('.', ',')));
-                    }
-                    break;
-                    //return new CorrectTapeReturn<double>(token.Length > 0 ? Convert.ToDouble(token.Replace('.', ',')) : 0.0);
-                    //return new CorrectTapeReturn<double>(Convert.ToDouble(token.Replace('.', ',')));
-                }
-
-                if (symbol == '-')
-                {
-                    token += "-";
-                }
-                else if (symbol == '.')
-                {
-                    token += ".";
-                }
-                else if (symbol == ',')
-                {
-                    token += ",";
-                }
-                else
-                {
-                    token += (symbol - 48).ToString();
-                }
-
-                if (nextSymbol == -1)
-                {
-                    //_isHaveNumber = true;
                     return new TapeReturn<double>(Convert.ToDouble(token.Replace('.', ',')));
                 }
+                break;
+            }
+
+            token += currentChar switch
+            {
+                '-' => "-",
+                '.' => ".",
+                ',' => ",",
+                _ => (currentChar - 48).ToString()
+            };
+
+            if (nextChar == -1)
+            {
+                //_isHaveNumber = true;
+                return new TapeReturn<double>(Convert.ToDouble(token.Replace('.', ',')));
             }
         }
         return new TapeReturn<double>(TapeReturnType.TapeEnded);
