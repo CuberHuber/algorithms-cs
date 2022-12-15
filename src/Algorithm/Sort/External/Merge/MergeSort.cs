@@ -7,6 +7,7 @@ namespace algorithms_cs.Algorithm.Sort.External.Merge;
 public class MultiwaySort: Sort
 {
     private readonly string _sourceFilePath;
+    private readonly string _tempDirectory;
     private readonly int _n;
     private RotatingDominoes _dominoes;
     private List<Tape.Tape> _tapes;
@@ -20,8 +21,9 @@ public class MultiwaySort: Sort
         _sourceFilePath = sourceFilePath;
         var directoryName = Path.GetDirectoryName(_sourceFilePath);
         if (directoryName == null) throw new DirectoryNotFoundException();
-        _templateNameFiles = directoryName + "\\temp\\" + "tempfile-{0}.multiwaymergesort";
-        Directory.CreateDirectory(directoryName + "\\temp\\");
+        _tempDirectory = directoryName + "\\temp\\";
+        _templateNameFiles = _tempDirectory + "tempfile-{0}.multiwaymergesort";
+        Directory.CreateDirectory(_tempDirectory);
         
         _tapes = new List<Tape.Tape>();
         _n = N;
@@ -42,13 +44,29 @@ public class MultiwaySort: Sort
     public void Start()
     {
         InitTapeSplit();
-        _dominoes.Rotation();
         int ended;
         do
         {
-            ended = MainRound();
             _dominoes.Rotation();
+            ended = MainRound();
         } while (ended > 1);
+
+        var endFilename = _dominoes.WriteFilenames[0];
+        TrashDelete(endFilename);
+    }
+
+    private void TrashDelete(string outFilename)
+    {
+        File.Copy(outFilename, _sourceFilePath+"-sorted");
+        foreach (var filename in _dominoes.ReadFilenames)
+        {
+            File.Delete(filename);
+        }
+        foreach (var filename in _dominoes.WriteFilenames)
+        {
+            File.Delete(filename);
+        }
+        Directory.Delete(_tempDirectory);
     }
 
     private void InitTapeSplit()
