@@ -124,7 +124,8 @@ public class MultiwaySort: Sort
         var writeTapes = new List<TapeWriter<double>>();
         if (writeTapes == null) throw new ArgumentNullException(nameof(readTapes));
         writeTapes.AddRange(_dominoes.WriteFilenames.Select(filename => new TapeWriter<double>(filename)));
-        
+
+        var count = 0;
         var indexTape = 0;
         if (indexTape >= _n) throw new IndexOutOfRangeException("indexTape out of range tapeWrites");
         var multipleSeries = new List<Series>();
@@ -141,7 +142,10 @@ public class MultiwaySort: Sort
                     writeTapes[indexTape].Write(value.GetValue());
                 }
             } while (value.GetType() == SeriesReturnType.Correct);
-            indexTape += 1;
+
+            count++;
+            if (count > 2) count = 2;
+            indexTape++;
             if (indexTape >= _n) indexTape = 0;
             multipleSeries = new List<Series>();
             multipleSeries.AddRange(readTapes.Select(tape => new Series(tape)));
@@ -152,7 +156,7 @@ public class MultiwaySort: Sort
         foreach (var tape in readTapes) tape.Close();
         foreach (var tape in writeTapes)  tape.Close();
 
-        return indexTape;
+        return count;
     }
 
 }
