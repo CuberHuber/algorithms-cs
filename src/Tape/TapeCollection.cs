@@ -7,14 +7,19 @@ namespace algorithms_cs.Tape;
 /// </summary>
 public class TapeCollection: IEnumerable
 {
-    private readonly string _path;
+    private readonly BufferedTapeReader _tape;
     public TapeCollection(string path)
     {
-        _path = path;
+        _tape = new BufferedTapeReader(path);
+    }
+
+    public TapeCollection(BufferedTapeReader tape)
+    {
+        _tape = tape;
     }
     
     public IEnumerator GetEnumerator()
     {
-        return new TestEnumerator(_path);
+        return new TapeEnumerator(_tape);
     }
 } 

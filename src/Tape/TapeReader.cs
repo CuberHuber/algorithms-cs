@@ -13,7 +13,7 @@ public class TapeReader : Tape
     /// By using StreamReader for reading the file and .Next() for extracting the double number.
     /// </summary>
     /// <param name="path">the path of file</param>
-    public TapeReader(string path)
+    public TapeReader(string path) : base(path)
     {
         try
         {

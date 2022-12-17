@@ -2,15 +2,21 @@
 
 namespace algorithms_cs.Tape;
 
-public class TestEnumerator : IEnumerator
+public class TapeEnumerator : IEnumerator
 {
     private BufferedTapeReader _tape;
-    private readonly string _path;
+    private readonly string? _path;
     
-    public TestEnumerator(string path)
+    public TapeEnumerator(string path)
     {
         _path = path;
         _tape = new BufferedTapeReader(path);
+    }
+
+    public TapeEnumerator(BufferedTapeReader tape)
+    {
+        _path = tape.TapePath;
+        _tape = tape;
     }
     
     /// <summary>

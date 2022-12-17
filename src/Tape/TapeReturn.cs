@@ -17,10 +17,6 @@ public enum TapeReturnType
     TapeEnded = 2,
 }
 
-/// <summary>
-/// 
-/// </summary>
-/// <typeparam name="T"></typeparam>
 public class TapeReturn<T>
 {
     private T? _value;
