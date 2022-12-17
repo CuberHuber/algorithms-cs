@@ -1,14 +1,23 @@
 ﻿namespace algorithms_cs.Tape;
 
+/// <summary>
+/// The TapeReader representing the file that contains numbers.
+/// By using StreamReader for reading the file and .Next() for extracting the double number.
+/// </summary>
 public class TapeReader : Tape
 {
     private readonly StreamReader? _file;
 
-    public TapeReader(string filepath) : base(filepath)
+    /// <summary>
+    /// The TapeReader representing the file that contains numbers.
+    /// By using StreamReader for reading the file and .Next() for extracting the double number.
+    /// </summary>
+    /// <param name="path">the path of file</param>
+    public TapeReader(string path)
     {
         try
         {
-            _file = new StreamReader(Filepath);
+            _file = new StreamReader(path);
         }
         catch (FileNotFoundException e)
         {
@@ -22,25 +31,42 @@ public class TapeReader : Tape
         }
     }
 
-    // This methods returns a boolean value describing is the file ended 
-    public bool IsEnd => _file!.Peek() == -1;
+    /// <summary>
+    /// The TapeReader representing the file that contains numbers.
+    /// By using StreamReader for reading the file and .Next() for extracting the double number.
+    /// </summary>
+    /// <param name="streamReader">StreamReader</param>
+    public TapeReader(StreamReader streamReader)
+    {
+        _file = streamReader;
+    }
 
+    /// <summary>
+    /// Returns true if the file ends
+    /// </summary>
+    public bool IsEnd => _file!.Peek() == -1;
+    
+    /// <summary>
+    /// Close the StreamReader
+    /// </summary>
     public void Close()
     {
         _file?.Close();
     }
-
+    
     private bool ValueIsDigit(int value)
     {
         return value is >= 48 and <= 57;
     }
 
-    // This methods reading file and returns a next number from this file
+    /// <summary>
+    /// Read next number from the file
+    /// </summary>
+    /// <returns>a next double number from StreamReader</returns>
     public virtual TapeReturn<double> Next()
     {
         var token = "";
         var tokenIsNumber = false;
-        //_isHaveNumber = IsEnd();
 
         while (!IsEnd)
         {
