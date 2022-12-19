@@ -1,4 +1,4 @@
-﻿namespace algorithms_cs.Tape;
+﻿namespace algorithms_cs.Utils.Tape;
 
 /// <summary>
 /// The TapeReader representing the file that contains numbers.
@@ -63,7 +63,7 @@ public class TapeReader : Tape
     /// Read next number from the file
     /// </summary>
     /// <returns>a next double number from StreamReader</returns>
-    public virtual TapeReturn<double> Next()
+    public virtual UtilReturn<double> Next()
     {
         var token = "";
         var tokenIsNumber = false;
@@ -88,7 +88,7 @@ public class TapeReader : Tape
             {
                 if (token.Length > 0)
                 {
-                    return new TapeReturn<double>(Convert.ToDouble(token.Replace('.', ',')));
+                    return new UtilReturn<double>(Convert.ToDouble(token.Replace('.', ',')));
                 }
                 break;
             }
@@ -104,9 +104,9 @@ public class TapeReader : Tape
             if (nextChar == -1)
             {
                 //_isHaveNumber = true;
-                return new TapeReturn<double>(Convert.ToDouble(token.Replace('.', ',')));
+                return new UtilReturn<double>(Convert.ToDouble(token.Replace('.', ',')));
             }
         }
-        return new TapeReturn<double>(TapeReturnType.TapeEnded);
+        return new UtilReturn<double>();
     }
 }

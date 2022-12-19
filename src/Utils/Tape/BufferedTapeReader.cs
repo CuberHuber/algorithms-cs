@@ -1,4 +1,4 @@
-﻿namespace algorithms_cs.Tape;
+﻿namespace algorithms_cs.Utils.Tape;
 
 /// <summary>
 /// BufferedTapeReader is a wrapper of TapeReader.
@@ -23,18 +23,18 @@ public class BufferedTapeReader: TapeReader
     /// Peek always returns the value following the current value until the next value is read
     /// </summary>
     /// <returns>next value of Tape</returns>
-    public TapeReturn<double> Peek()
+    public UtilReturn<double> Peek()
     {
         // Если 2 раза подряд вызвать BufferedTapeReader.Peek() то вернутся одинаковое значение
         if (_buffer.TryPeek(out var bufValue))
         {
-            return new TapeReturn<double>(bufValue);
+            return new UtilReturn<double>(bufValue);
         }
         
         var nextValue = base.Next();
-        if (nextValue.GetType() is TapeReturnType.TapeEnded)
+        if (nextValue.GetType() is UtilReturnType.TapeEnded)
         {
-            return new TapeReturn<double>(TapeReturnType.TapeEnded);
+            return new UtilReturn<double>(UtilReturnType.TapeEnded);
         }
         
         _buffer.Enqueue(nextValue.GetValue());
@@ -45,10 +45,10 @@ public class BufferedTapeReader: TapeReader
     /// 
     /// </summary>
     /// <returns>next value of Tape or buffered previous value</returns>
-    public override TapeReturn<double> Next()
+    public override UtilReturn<double> Next()
     {
         return _buffer.TryDequeue(out var bufValue) 
-            ? new TapeReturn<double>(bufValue) 
+            ? new UtilReturn<double>(bufValue) 
             : base.Next();
     }
 }

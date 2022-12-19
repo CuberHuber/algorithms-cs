@@ -1,22 +1,23 @@
-using algorithms_cs.Serial;
+using algorithms_cs.Utils;
+using algorithms_cs.Utils.Serial;
 
 namespace algorithms_cs.Algorithm.Sort.External.SeriesMerge;
 
 internal struct MinReturn
 {
-    public SeriesReturn<double> Element;
+    public UtilReturn<double> Element;
     public int Index;
 }
 
 public class Collector
 {
     private readonly List<Series> _seriesCollection;
-    private readonly List<SeriesReturn<double>> _bufferSeriesReturns;
+    private readonly List<UtilReturn<double>> _bufferSeriesReturns;
 
     public Collector(List<Series> seriesCollection)
     {
         _seriesCollection = seriesCollection;
-        _bufferSeriesReturns = new List<SeriesReturn<double>>();
+        _bufferSeriesReturns = new List<UtilReturn<double>>();
         foreach (var seriesReturn in _seriesCollection)
         {
             _bufferSeriesReturns.Add(seriesReturn.Next());
@@ -35,7 +36,7 @@ public class Collector
 
         for (var i = 0; i < _bufferSeriesReturns.Count; i++)
         {
-            if (_bufferSeriesReturns[i].GetType() == SeriesReturnType.Correct 
+            if (_bufferSeriesReturns[i].GetType() == UtilReturnType.Correct 
                 && value > _bufferSeriesReturns[i].GetValue())
             {
                 value = _bufferSeriesReturns[i].GetValue();
@@ -47,16 +48,16 @@ public class Collector
         return minReturn;
     }
 
-    private bool IsEmpty() => _bufferSeriesReturns.All(x => x.GetType() != SeriesReturnType.Correct);
+    private bool IsEmpty() => _bufferSeriesReturns.All(x => x.GetType() != UtilReturnType.Correct);
 
-    public bool TapeEnded() => _bufferSeriesReturns.All(x => x.GetType() == SeriesReturnType.TapeEnded);
+    public bool TapeEnded() => _bufferSeriesReturns.All(x => x.GetType() == UtilReturnType.TapeEnded);
 
-    public SeriesReturn<double> Next()
+    public UtilReturn<double> Next()
     {
         // Returns minimal Correct value from multiple Series, else returns SeriesEnd
 
         var seriesEnded = IsEmpty();
-        if (seriesEnded) return new SeriesReturn<double>(SeriesReturnType.SeriesEnded);
+        if (seriesEnded) return new UtilReturn<double>(UtilReturnType.SeriesEnded);
 
         var minElement = Min();
         

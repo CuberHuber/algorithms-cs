@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace algorithms_cs.Tape;
+namespace algorithms_cs.Utils.Tape;
 
 /// <summary>
 /// TapeCollection represents TapeReader like a collection for using foreach

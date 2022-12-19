@@ -1,13 +1,13 @@
 ﻿using System.Collections;
-using algorithms_cs.Tape;
+using algorithms_cs.Utils.Tape;
 
-namespace algorithms_cs.Serial;
+namespace algorithms_cs.Utils.Serial;
 
 /// <summary>
 /// SeriesEnumerable represents Series over the tape like a collection for using foreach
 /// Series representing a sequence of increasing numbers over tape.
 /// </summary>
-public class SeriesEnumerable: IEnumerable<TapeReturn<double>>
+public class SeriesEnumerable: IEnumerable<UtilReturn<double>>
 {
     private readonly BufferedTapeReader _tape;
     
@@ -17,9 +17,9 @@ public class SeriesEnumerable: IEnumerable<TapeReturn<double>>
         _tape.Peek();
     }
 
-    public bool IsEnd => _tape.Peek().GetType() == TapeReturnType.TapeEnded;
+    public bool IsEnd => _tape.Peek().GetType() == UtilReturnType.TapeEnded;
 
-    public IEnumerator<TapeReturn<double>> GetEnumerator()
+    public IEnumerator<UtilReturn<double>> GetEnumerator()
     {
         return new SeriesEnumerator(_tape);
     }

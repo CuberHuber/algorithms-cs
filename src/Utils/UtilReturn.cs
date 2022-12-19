@@ -1,12 +1,10 @@
-﻿using algorithms_cs.Tape;
-
-namespace algorithms_cs.Serial;
+﻿namespace algorithms_cs.Utils;
 
 /// <summary>
 /// SeriesReturnTape representing series type of return value
 /// </summary>
 [Flags]
-public enum SeriesReturnType
+public enum UtilReturnType
 {
     /// <summary>
     /// Correct using when next value was successfully received
@@ -24,32 +22,41 @@ public enum SeriesReturnType
     TapeEnded = 3,
 }
 
-public class SeriesReturn<T>
+public class UtilReturn<T>
 {
-    private T? _value;
-    private SeriesReturnType _type;
+    private readonly T? _value;
+    private readonly UtilReturnType _type;
 
     public T? GetValue()
     {
-        return _type == SeriesReturnType.Correct ? _value : default;
+        return _type == UtilReturnType.Correct ? _value : default;
     }
 
-    public SeriesReturnType GetType()
+    public UtilReturnType GetType()
     {
         return _type;
+    }
+    
+    
+    /// <summary>
+    /// Default initialization with TapeEnded type
+    /// </summary>
+    public UtilReturn()
+    {
+        _type = UtilReturnType.TapeEnded;
     }
     
     /// <summary>
     /// Correct is the default series, since if a value is passed, it's already right.
     /// </summary>
     /// <param name="value">any value that to be passed from Series</param>
-    public SeriesReturn(T value)
+    public UtilReturn(T value)
     {
         _value = value;
-        _type = SeriesReturnType.Correct;
+        _type = UtilReturnType.Correct;
     }
 
-    public SeriesReturn(SeriesReturnType type)
+    public UtilReturn(UtilReturnType type)
     {
         _type = type;
     }

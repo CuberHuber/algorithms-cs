@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace algorithms_cs.Tape;
+namespace algorithms_cs.Utils.Tape;
 
 public class TapeEnumerator : IEnumerator
 {
@@ -25,7 +25,7 @@ public class TapeEnumerator : IEnumerator
     /// <returns>boolean indicating whether a next number is available</returns>
     public bool MoveNext()
     {
-        return !_tape.IsEnd || _tape.Peek().GetType() == TapeReturnType.Correct;
+        return !_tape.IsEnd || _tape.Peek().GetType() == UtilReturnType.Correct;
     }
 
     public void Reset()

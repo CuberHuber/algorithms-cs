@@ -1,8 +1,8 @@
-﻿using algorithms_cs.Tape;
+﻿using algorithms_cs.Utils.Tape;
 
-namespace algorithms_cs.Serial;
+namespace algorithms_cs.Utils.Serial;
 
-public class SeriesEnumerator: IEnumerator<TapeReturn<double>>
+public class SeriesEnumerator: IEnumerator<UtilReturn<double>>
 {
     private readonly BufferedTapeReader _tape;
     private double _previous;
@@ -20,7 +20,7 @@ public class SeriesEnumerator: IEnumerator<TapeReturn<double>>
     public bool MoveNext()
     {
         var value = _tape.Peek();
-        if (value.GetType() == TapeReturnType.Correct)
+        if (value.GetType() == UtilReturnType.Correct)
         {
             if (_previous <= value.GetValue())
             {
@@ -38,7 +38,7 @@ public class SeriesEnumerator: IEnumerator<TapeReturn<double>>
 
     public object Current => _tape.Next();
 
-    TapeReturn<double> IEnumerator<TapeReturn<double>>.Current => (TapeReturn<double>)Current;
+    UtilReturn<double> IEnumerator<UtilReturn<double>>.Current => (UtilReturn<double>)Current;
 
     public void Dispose()
     {

@@ -1,4 +1,4 @@
-﻿namespace algorithms_cs.Tape;
+﻿namespace algorithms_cs.Utils.Tape;
 
 /// <summary>
 /// Base Tape class

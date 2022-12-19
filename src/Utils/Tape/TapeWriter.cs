@@ -1,4 +1,4 @@
-﻿namespace algorithms_cs.Tape;
+﻿namespace algorithms_cs.Utils.Tape;
 
 public class TapeWriter<T> : Tape
 {   
