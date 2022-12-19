@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using algorithms_cs.Tape;
+﻿using algorithms_cs.Tape;
 
 namespace algorithms_cs.Serial;
 
-public class SeriesEnumerator: IEnumerator
+public class SeriesEnumerator: IEnumerator<TapeReturn<double>>
 {
     private readonly BufferedTapeReader _tape;
     private double _previous;
-    
+
     public SeriesEnumerator(BufferedTapeReader tape)
     {
         _tape = tape;
@@ -34,7 +33,15 @@ public class SeriesEnumerator: IEnumerator
 
     public void Reset()
     {
+        // throw new NotImplementedException();
     }
 
-    public object Current => _tape.Next().GetValue();
+    public object Current => _tape.Next();
+
+    TapeReturn<double> IEnumerator<TapeReturn<double>>.Current => (TapeReturn<double>)Current;
+
+    public void Dispose()
+    {
+        // throw new NotImplementedException();
+    }
 }

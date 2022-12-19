@@ -76,7 +76,6 @@ public class MultiwaySort: Sort
         var tapeWrites = _dominoes.WriteFilenames.Select(filename => new TapeWriter<double>(filename)).ToList();
 
         var indexTape = 0;
-        if (indexTape >= _n) throw new IndexOutOfRangeException("indexTape out of range tapeWrites");
         
         var s1 = new Series(initTape);
         SeriesReturn<double> value;
