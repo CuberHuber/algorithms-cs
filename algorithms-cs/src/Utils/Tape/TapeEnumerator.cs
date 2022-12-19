@@ -30,7 +30,7 @@ public class TapeEnumerator : IEnumerator
 
     public void Reset()
     {
-        _tape = new BufferedTapeReader(_path);
+        _tape = new BufferedTapeReader(_path!);
     }
     
     /// <summary>

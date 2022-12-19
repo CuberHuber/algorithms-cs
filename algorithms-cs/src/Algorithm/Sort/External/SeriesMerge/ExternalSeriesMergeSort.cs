@@ -4,7 +4,7 @@ using algorithms_cs.Utils.Tape;
 
 namespace algorithms_cs.Algorithm.Sort.External.SeriesMerge;
 
-public class MultiwaySort: Sort
+public class MultiwaySort
 {
     private readonly string _sourceFilePath;
     private readonly string _tempDirectory;
