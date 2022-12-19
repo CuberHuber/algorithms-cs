@@ -1,7 +1,6 @@
-using System.Diagnostics;
 using algorithms_cs.Serial;
 
-namespace algorithms_cs.Algorithm.Sort.External.Merge;
+namespace algorithms_cs.Algorithm.Sort.External.SeriesMerge;
 
 internal struct MinReturn
 {
