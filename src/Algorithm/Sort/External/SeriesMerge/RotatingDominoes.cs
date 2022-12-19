@@ -1,4 +1,4 @@
-﻿namespace algorithms_cs.Algorithm.Sort.External.Merge;
+﻿namespace algorithms_cs.Algorithm.Sort.External.SeriesMerge;
 
 public class RotatingDominoes
 {

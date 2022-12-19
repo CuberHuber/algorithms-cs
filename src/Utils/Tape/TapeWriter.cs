@@ -1,4 +1,4 @@
-﻿namespace algorithms_cs.Tape;
+﻿namespace algorithms_cs.Utils.Tape;
 
 public class TapeWriter<T> : Tape
 {   
@@ -7,12 +7,12 @@ public class TapeWriter<T> : Tape
 
     public bool Recorded => _recorded;
 
-    public TapeWriter(string filepath) : base(filepath)
+    public TapeWriter(string path)
     {
         try
         {
             _recorded = false;
-            _file = new StreamWriter(Filepath);
+            _file = new StreamWriter(path);
         }
         catch (Exception e)
         {
@@ -29,6 +29,6 @@ public class TapeWriter<T> : Tape
     public void Write(T value)
     {
         _recorded = true;
-        _file.Write(value.ToString() + " ");
+        _file.Write(value!.ToString() + " ");
     }
 }
