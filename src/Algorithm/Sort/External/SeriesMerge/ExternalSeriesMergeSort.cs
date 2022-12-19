@@ -57,7 +57,7 @@ public class MultiwaySort: Sort
 
     private void TrashDelete(string outFilename)
     {
-        File.Copy(outFilename, _sourceFilePath+"-sorted");
+        if (!File.Exists(_sourceFilePath+"-sorted")) File.Copy(outFilename, _sourceFilePath+"-sorted");
         foreach (var filename in _dominoes.ReadFilenames)
         {
             File.Delete(filename);
